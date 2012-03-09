@@ -1,6 +1,5 @@
 [
   "deps.js",
-  "sAJAXRequest.js",
   "sBrowser.js",
   "sCSS.js",
   "sDocument.js",
