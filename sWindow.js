@@ -15,11 +15,6 @@ if (!sWindow.addEventListener) {
    * @returns {DOMWindow} The window object.
    */
   sWindow.addEventListener = function (type, func, useCapture) {
-    if (type === 'hashchange' && !sHistory.hasNativeSupport) {
-      sHistory.addEventListener(func);
-      return window;
-    }
-
     if (sWindow.attachEvent) {
       sWindow.attachEvent('on' + type, function () {
         var event = new sEvent(sWindow.event);
