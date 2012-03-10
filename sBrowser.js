@@ -8,7 +8,7 @@
 var sBrowser = function () {};
 /**
  * If the browser is IE.
- * @type boolean|null
+ * @type (boolean|null)
  * @private
  */
 sBrowser.isIEStatic = null;
