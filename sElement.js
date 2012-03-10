@@ -300,13 +300,71 @@ sElement.prototype.remove = function () {
 /**
  * Get sub-elements by class name. WebKit browsers return a NodeList, and
  *   others may return an HTMLCollection object. Browsers that lack support
- *   for <code>getElementsByClassName()</code> will return an array.
+ *   for <code>getElementsByClassName()</code> will return an array. Based on
+ *   work by Robert Nyman.
  * @param {string} className Class name to search for.
  * @returns {NodeList|HTMLCollection|Array} Elements.
+ * @see http://code.google.com/p/getelementsbyclassname/
  */
 sElement.prototype.getElementsByClassName = function (className) {
   // TODO To be fully compliant with incompatible browsers, should return a NodeList-like object
-  return sDependencies.getElementsByClassName(className, this._DOMElement);
+  var elm = document;
+  var ret, doc = document, classesToCheck, classes = className.split(' '), j;
+  var elements;
+
+  if (elm.getElementsByClassName) {
+    ret = elm.getElementsByClassName(className);
+  }
+  else if (doc.evaluate) {
+    // do XPath query and return array
+    var xhtmlNamespace = 'http://www.w3.org/1999/xhtml';
+    var namespaceResolver = doc.documentElement.namespaceURI === xhtmlNamespace ? xhtmlNamespace : null;
+    var node;
+
+    ret = [];
+    classesToCheck = '';
+
+    for (j = 0; j < classes.length; j++) {
+      classesToCheck += '[contains(concat(" ", @class, " "), " ' + classes[j] + ' ")]';
+    }
+
+    try {
+      elements = doc.evaluate('.//*' + classesToCheck, elm, namespaceResolver, 0, null);
+    }
+    catch (e) {
+      elements = doc.evaluate('.//*' + classesToCheck, elm, null, 0, null);
+    }
+
+    while ((node = elements.iterateNext())) {
+      ret.push(node);
+    }
+  }
+  else {
+    var match, k;
+
+    ret = [];
+    elements = elm.all ? elm.all : elm.getElementsByTagName('*');
+    classesToCheck = [];
+
+    for (j = 0; j < classes.length; j++) {
+      classesToCheck.push(new RegExp('(\\s+)?' + classes[j] + '(\\s+)?'));
+    }
+
+    for (j = 0; j < elements.length; j++) {
+      match = false;
+      for (k = 0; k < classesToCheck.length; k++) {
+        if (classesToCheck[k].test(elements[j].className)) {
+          match = true;
+          break;
+        }
+      }
+      if (match) {
+        ret.push(elements[j]);
+      }
+    }
+  }
+
+  return ret;
 };
 /**
  * Set attributes to the element.
