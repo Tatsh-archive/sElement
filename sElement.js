@@ -213,6 +213,8 @@ sElement.prototype.removeEventListener = function (eventName, cb, useCapture) {
 
     this.setData('event-ids', newIds.join(','));
   }
+
+  return this;
 };
 /**
  * Convenience method for addEventListener().
