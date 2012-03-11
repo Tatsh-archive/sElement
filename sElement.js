@@ -308,7 +308,7 @@ sElement.prototype.remove = function () {
  */
 sElement.prototype.getElementsByClassName = function (className) {
   // TODO To be fully compliant with incompatible browsers, should return a NodeList-like object
-  var elm = document;
+  var elm = this._DOMElement;
   var ret, doc = document, classesToCheck, classes = className.split(' '), j;
   var elements;
 
