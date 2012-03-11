@@ -380,6 +380,88 @@ sElement.prototype.setAttributes = function (attributes) {
   return this;
 };
 /**
+ * Get the DOM element's text.
+ * @returns {string} The text.
+ */
+sElement.prototype.getText = function () {
+  var elements = this._DOMElement.childNodes;
+  var element;
+  var ret = '', i;
+
+  (function getText(nodes) {
+    for (i = 0; i <  nodes.length; i++) {
+      element = nodes[i];
+
+      // TODO Fix
+//       if (element.hasChildNodes()) {
+//         ret += getText(element.childNodes);
+//         continue;
+//       }
+
+      if (element.nodeType === 3 || element.nodeType === 4) {
+        ret += element.nodeValue;
+      }
+    }
+  })(elements);
+
+  return ret;
+};
+/**
+ * Get the element height.
+ * @returns {number} The height. The unit should be as originally specified
+ *   in the CSS.
+ */
+sElement.prototype.getHeight = function () {
+  return parseInt((function (el) {
+    if (window.getComputedStyle) {
+      return window.getComputedStyle(el, null).height;
+    }
+    else if (el.currentStyle) {
+      return el.currentStyle.height;
+    }
+    return 0;
+  })(this._DOMElement), 10);
+};
+/**
+ * Make a multiple line ellipsis.
+ * @param {boolean} multipleLines Multiple lines.
+ * @param {number} maxHeight Height in pixels.
+ * @return {sElement} The object to allow method chaining.
+ */
+sElement.prototype.makeEllipsis = function (multipleLines, maxHeight) {
+  if (multipleLines === undefined) {
+    this._DOMElement.style.overflow = 'hidden';
+    this._DOMElement.style.whiteSpace = 'nowrap';
+    this._DOMElement.style.textOverflow = 'ellipsis';
+    return this;
+  }
+
+  if (!maxHeight || isNaN(parseInt(maxHeight), 10)) {
+    return this;
+  }
+
+  var text;
+  var currentHeight = this.getHeight();
+  var cut = 4;
+
+  if (!currentHeight) {
+    return this;
+  }
+
+  while (currentHeight > maxHeight) {
+    text = this.getText();
+    this.setText(text.substr(0, text.length - cut) + ' ...');
+    currentHeight = this.getHeight();
+    cut += 4;
+
+    if (Math.abs(currentHeight - maxHeight) < 10) {
+      break;
+    }
+  }
+
+  return this;
+};
+/**
  * Convenience function to get a new sElement object.
  * @param {Element} element Element node reference.
  * @returns {sElement} Element object.
