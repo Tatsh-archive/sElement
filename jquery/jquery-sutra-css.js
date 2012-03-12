@@ -88,6 +88,7 @@ if (window['jQuery']) {
     * @type boolean
     * @see sCSS#translate
     */
+    var Modernizr = window['Modernizr'] || {};
     sCSS.hasTransforms = Modernizr['csstransforms'] || Modernizr['csstransforms3d'];
     /**
     * Adds all transform properties for the translate() or translate3d() CSS

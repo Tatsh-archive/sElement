@@ -113,7 +113,7 @@ sCSS.translate = function (element, x, y, z, unit) {
   var func = 'translate(';
   var has3d = false;
   var output = '';
-  if (window.Modernizr && window.Modernizr['csstransforms3d']) {
+  if (window['Modernizr'] && window['Modernizr']['csstransforms3d']) {
     func = 'translate3d(';
     has3d = true;
   }
