@@ -410,20 +410,12 @@ sElement.prototype.getText = function () {
   return ret;
 };
 /**
- * Get the element height.
+ * Get the element height with borders included, but not including margin.
  * @returns {number} The height. The unit should be as originally specified
  *   in the CSS.
  */
 sElement.prototype.getHeight = function () {
-  return parseInt((function (el) {
-    if (window.getComputedStyle) {
-      return window.getComputedStyle(el, null).height;
-    }
-    else if (el.currentStyle) {
-      return el.currentStyle.height;
-    }
-    return 0;
-  })(this._DOMElement), 10);
+  return this._DOMElement.offsetHeight;
 };
 /**
  * Make a multiple line ellipsis.
@@ -447,7 +439,7 @@ sElement.prototype.makeEllipsis = function (multipleLines, maxHeight) {
   var currentHeight = this.getHeight();
   var cut = 4;
 
-  if (!currentHeight) {
+  if (!currentHeight || isNaN(currentHeight)) {
     return this;
   }
 
