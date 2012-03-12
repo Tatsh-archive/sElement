@@ -160,6 +160,7 @@ sDocument.prototype.querySelectorAll = function (selector) {
   // Based on code by Chad Scira (unobfuscated here)
   // https://gist.github.com/868532/778c45c40186a862642f72dd5b532abbe18a3625
   // (function(d){d=document,a=d.styleSheets[0]||d.createStyleSheet();d.querySelectorAll=function(e){a.addRule(e,'f:b');for(var l=d.all,b=0,c=[],f=l.length;b<f;b++)l[b].currentStyle.f&&c.push(l[b]);a.removeRule(0);return c}})()
+  // Has a bug though, it should be to remove the last rule not the first (0)
 
   var styleSheet = doc.styleSheets[0] || doc.createStyleSheet();
   var all = doc.all, elements = [];
@@ -178,7 +179,7 @@ sDocument.prototype.querySelectorAll = function (selector) {
       }
     }
 
-    styleSheet.removeRule(0);
+    styleSheet.removeRule(styleSheet.rules.length - 1);
 
     return elements;
   })(selector);
