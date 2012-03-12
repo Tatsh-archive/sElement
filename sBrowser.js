@@ -27,7 +27,7 @@ sBrowser.isIE = function () {
   if (sBrowser.isIEStatic === null) {
     var div = document.createElement('div');
     div.style.display = 'none';
-    div.innerHTML = '<!--[if IE]><div id="ie-find"></div><[endif]-->';
+    div.innerHTML = "<!--[if IE]><div id='ie-find'></div><[endif]-->";
     document.body.appendChild(div);
 
     if (document.getElementById('ie-find')) {
@@ -52,7 +52,7 @@ sBrowser.isIEVersion = function (version) {
   if (sBrowser.isIEVersionStatics[version] === undefined) {
     var div = document.createElement('div');
     div.style.display = 'none';
-    div.innerHTML = '<!--[if IE ' + version + ']><div id="ie-find"></div><[endif]-->';
+    div.innerHTML = "<!--[if IE " + version + "]><div id='ie-find'></div><[endif]-->";
     document.body.appendChild(div);
 
     if (document.getElementById('ie-find')) {
