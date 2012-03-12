@@ -1,3 +1,4 @@
+/*jshint sub:true */
 (function ($) {
   /**
   * Test browser data. This is generally not recommended for everything, and is

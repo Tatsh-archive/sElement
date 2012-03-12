@@ -1,4 +1,4 @@
-/*jshint expr:true */
+/*jshint expr:true, sub:true */
 
 /**
  * This file is standalone and does not require any part of sutra-js.
