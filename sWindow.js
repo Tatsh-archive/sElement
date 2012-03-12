@@ -27,15 +27,25 @@ if (!sWindow.addEventListener) {
   };
 }
 /**
+ * Used in getHeight/width calculation.
+ * @private
+ * @type Element
+ */
+var _doc = (function (doc) {
+  var ret = document.body;
+  if (doc.compatMode === 'CSS1Compat' && doc.documentElement) {
+    ret = doc.documentElement;
+  }
+  return ret;
+})(document);
+/**
  * Gets the height of the window.
  * @returns {number} Height of the window.
  */
 sWindow.getHeight = function () {
   var height = 460;
-  var doc = document.body;
 
-  (document.compatMode === 'CSS1Compat' && document.documentElement) && (doc = document.documentElement);
-  doc.offsetHeight && (height = doc.offsetHeight);
+  _doc.offsetHeight && (height = _doc.offsetHeight);
   window.innerHeight && (height = window.innerHeight);
 
   return height;
@@ -48,8 +58,7 @@ sWindow.getWidth = function () {
   var width = 630;
   var doc = document.body;
 
-  (document.compatMode === 'CSS1Compat' && document.documentElement) && (doc = document.documentElement);
-  doc.offsetWidth && (width = doc.offsetWidth);
+  _doc.offsetWidth && (width = _doc.offsetWidth);
   window.innerWidth && (width = window.innerWidth);
 
   return width;
