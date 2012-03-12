@@ -8,7 +8,7 @@ var sDocument = function () {};
 /**
  * Adds an event.
  * @param {string} eventName Event name.
- * @param {function()} func Callback.
+ * @param {function((sEvent|Event))} func Callback.
  * @param {boolean} [useCapture=false] Indicates whether or not the user wishes
  *   to initiate capture.
  * @returns {sDocument} The sDocument object to allow method chaining.
@@ -28,7 +28,7 @@ sDocument.prototype.addEventListener = function (eventName, func, useCapture) {
     document.addEventListener(eventName, func, useCapture);
   }
   else if (window.attachEvent) {
-    // TODO This needs to be handled sEvent internally with an ID number so it can be detached
+    // TODO This should be handled by sEvent internally with an ID number so it can be detached
     window.attachEvent(ieEventName, function () {
       func.call(document, new sEvent(window.event));
     });

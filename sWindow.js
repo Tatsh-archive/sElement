@@ -1,18 +1,19 @@
 /**
- * @namespace Object to represent the window and attach events in a standard way.
+ * @namespace Object to represent the window and attach events in a standard
+ *   way.
  * @name sWindow
  */
 var sWindow = window;
 
 if (!sWindow.addEventListener) {
+  // TODO The warning for this will probably never go away even with @override
   /**
-   * Add an event to the window object (for browsers that do not support
-   *   addEventListener).
+   * Add an event listener to the window object. This is only used in browsers
+   *   without support for addEventListener natively.
+   * @override
    * @param {string} type Type of event.
-   * @param {function()} func Callback.
-   * @param {boolean} [useCapture=false] Indicates whether or not the user wishes
-   *   to initiate capture.
-   * @returns {DOMWindow} The window object.
+   * @param {(EventListener|function((sEvent|Event|null)):(boolean|undefined)|null)} func Callback.
+   * @param {boolean|undefined|null} [useCapture] Not used.
    */
   sWindow.addEventListener = function (type, func, useCapture) {
     if (sWindow.attachEvent) {
@@ -25,8 +26,6 @@ if (!sWindow.addEventListener) {
         return ret;
       });
     }
-
-    return window;
   };
 }
 /**
@@ -60,7 +59,7 @@ sWindow.getWidth = function () {
 // Convenience aliases
 /**
  * Global sWindow reference.
- * @type sWindow
+ * @type {Window}
  */
 var sWin = sWindow;
 sWin.bind = sWin.addEventListener;

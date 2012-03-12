@@ -22,16 +22,17 @@ var sElement = function (element) {
   this.tagName = element.tagName ? element.tagName.toLowerCase() : '';
   /**
    * The children property or an array of the child nodes.
-   * @type HTMLCollection|sHTMLCollection
+   * @type (HTMLCollection|sHTMLCollection)
    */
   this.children = sHTMLCollection.getCorrectObject(this._DOMElement, 'children', this._DOMElement.childNodes);
   /**
    * List of classes for management of the element.
-   * @type DOMTokenList|sDOMSettableTokenList
+   * @type (DOMTokenList|sDOMSettableTokenList)
    */
   this.classList = new sDOMSettableTokenList(this._DOMElement);
+  // TODO Report warning: 'Bad type annotation. Unknown type: DOMStringMap'
   /**
-   * @type DOMStringMap|sDOMStringMap
+   * @type (DOMStringMap|sDOMStringMap)
    */
   this.dataset = (function (el) {
     if (el.dataset) {
@@ -128,7 +129,7 @@ sElement._events = {};
 /**
  * Adds an event listener.
  * @param {string} eventName Event name.
- * @param {function()} cb Callback.
+ * @param {function((Event|sEvent))} cb Callback.
  * @param {boolean} [useCapture=false] Indicates whether or not the user wishes
  *   to initiate capture.
  * @returns {sElement} The object to allow method chaining.
@@ -137,7 +138,7 @@ sElement.prototype.addEventListener = function (eventName, cb, useCapture) {
   useCapture === undefined && (useCapture = false);
 
   if (this._DOMElement.addEventListener) {
-    this._DOMElement.addEventListener(eventName, cb, useCapture);
+    this._DOMElement.addEventListener(eventName, cb, !!useCapture);
   }
   else if (this._DOMElement.attachEvent) {
     // To be able to unbind later the handler created here must be saved
@@ -187,7 +188,7 @@ sElement.prototype.addEventListener = function (eventName, cb, useCapture) {
  */
 sElement.prototype.removeEventListener = function (eventName, cb, useCapture) {
   if (this._DOMElement.removeEventListener) {
-    this._DOMElement.removeEventListener(eventName, cb, useCapture);
+    this._DOMElement.removeEventListener(eventName, cb, !!useCapture);
   }
   else if (this._DOMElement.detachEvent) {
     var ids = this.getData('event-ids');
@@ -438,7 +439,7 @@ sElement.prototype.makeEllipsis = function (multipleLines, maxHeight) {
     return this;
   }
 
-  if (!maxHeight || isNaN(parseInt(maxHeight), 10)) {
+  if (!maxHeight || isNaN(parseInt(maxHeight, 10))) {
     return this;
   }
 

@@ -2,7 +2,8 @@
  * Emulates the event object.
  * @see https://developer.mozilla.org/en/DOM/DOM_event_reference
  * @constructor
- * @param {event|Object} eventObj Native browser event or object.
+ * @param {Event|Object} eventObj Native browser event or object that is
+ *   similar (this includes IE's window.event).
  * @returns {sEvent} The event object.
  */
 var sEvent = function (eventObj) {
@@ -14,7 +15,7 @@ var sEvent = function (eventObj) {
   this._isIE = window.event && window.event.srcElement !== undefined ? true : false;
   /**
    * The native browser event object.
-   * @type Event
+   * @type (Event|Object)
    */
   this.originalEvent = eventObj;
   /**
