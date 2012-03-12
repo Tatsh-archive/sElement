@@ -6,11 +6,9 @@
 var sWindow = window;
 
 if (!sWindow.addEventListener) {
-  // TODO The warning for this will probably never go away even with @override
   /**
    * Add an event listener to the window object. This is only used in browsers
    *   without support for addEventListener natively.
-   * @override
    * @param {string} type Type of event.
    * @param {(EventListener|function((sEvent|Event|null)):(boolean|undefined)|null)} func Callback.
    * @param {boolean|undefined|null} [useCapture] Not used.
