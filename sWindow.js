@@ -1,37 +1,37 @@
 /**
- * @namespace Object to represent the window and attach events in a standard
- *   way.
- * @name sWindow
+ * Front-end to window object properties such as height.
+ * @constructor
  */
-var sWindow = window;
-
-if (!sWindow.addEventListener) {
-  /**
-   * Add an event listener to the window object. This is only used in browsers
-   *   without support for addEventListener natively.
-   * @param {string} type Type of event.
-   * @param {(EventListener|function((sEvent|Event|null)):(boolean|undefined)|null)} func Callback.
-   * @param {boolean|undefined|null} [useCapture] Not used.
-   */
-  sWindow.addEventListener = function (type, func, useCapture) {
-    if (sWindow.attachEvent) {
-      sWindow.attachEvent('on' + type, function () {
-        var event = new sEvent(sWindow.event);
-        var ret = func.call(sWindow, event);
-        if (!ret) {
-          event.preventDefault();
-        }
-        return ret;
-      });
-    }
-  };
-}
+var sWindow = function () {};
+/**
+  * Add an event listener to the window object. This is only used in browsers
+  *   without support for addEventListener natively.
+  * @param {string} type Type of event.
+  * @param {(EventListener|function((sEvent|Event|null)):(boolean|undefined)|null)} func Callback.
+  * @param {boolean|undefined|null} [useCapture] Not used.
+  * @returns {sWindow} The object to allow method chaining.
+  */
+sWindow.prototype.addEventListener = function (type, func, useCapture) {
+  if (window.addEventListener) {
+    window.addEventListener(type, func, useCapture);
+  }
+  else if (window.attachEvent) {
+    window.attachEvent('on' + type, function () {
+      var event = new sEvent(sWindow.event);
+      var ret = func.call(sWindow, event);
+      if (!ret) {
+        event.preventDefault();
+      }
+      return ret;
+    });
+  }
+};
 /**
  * Used in getHeight/width calculation.
  * @private
  * @type Element
  */
-var _doc = (function (doc) {
+sWindow._doc = (function (doc) {
   var ret = document.body;
   if (doc.compatMode === 'CSS1Compat' && doc.documentElement) {
     ret = doc.documentElement;
@@ -42,10 +42,10 @@ var _doc = (function (doc) {
  * Gets the height of the window.
  * @returns {number} Height of the window.
  */
-sWindow.getHeight = function () {
+sWindow.prototype.getHeight = function () {
   var height = 460;
 
-  _doc.offsetHeight && (height = _doc.offsetHeight);
+  sWindow._doc.offsetHeight && (height = sWindow._doc.offsetHeight);
   window.innerHeight && (height = window.innerHeight);
 
   return height;
@@ -54,20 +54,37 @@ sWindow.getHeight = function () {
  * Gets the width of the window.
  * @returns {number} Width of the window.
  */
-sWindow.getWidth = function () {
+sWindow.prototype.getWidth = function () {
   var width = 630;
   var doc = document.body;
 
-  _doc.offsetWidth && (width = _doc.offsetWidth);
+  sWindow._doc.offsetWidth && (width = sWindow._doc.offsetWidth);
   window.innerWidth && (width = window.innerWidth);
 
   return width;
 };
-// Convenience aliases
+/**
+ * Alias to addEventListener for window.
+ * @param {string} type Type of event.
+ * @param {(EventListener|function((sEvent|Event|null)):(boolean|undefined)|null)} func Callback.
+ * @param {boolean|undefined|null} [useCapture] Not used.
+ * @returns {sWindow} The object to allow method chaining.
+ */
+sWindow.prototype.bind = function (type, func, useCapture) {
+  return this.addEventListener(type, func, useCapture);
+};
+/**
+ * Alias to addEventListener for window.
+ * @param {string} type Type of event.
+ * @param {(EventListener|function((sEvent|Event|null)):(boolean|undefined)|null)} func Callback.
+ * @param {boolean|undefined|null} [useCapture] Not used.
+ * @returns {sWindow} The object to allow method chaining.
+ */
+sWindow.prototype.addEvent = function (type, func, useCapture) {
+  return this.addEventListener(type, func, useCapture);
+};
 /**
  * Global sWindow reference.
- * @type {Window}
+ * @type sWindow
  */
-var sWin = sWindow;
-sWin.bind = sWin.addEventListener;
-sWin.addEvent = sWin.addEventListener;
+var sWin = new sWindow();
