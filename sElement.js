@@ -297,6 +297,8 @@ sElement.prototype.remove = function () {
     return this;
   }
 
+  // TODO Remove all events attached
+
   this._DOMElement.parentNode.removeChild(this._DOMElement);
   return this;
 };
