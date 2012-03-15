@@ -4,16 +4,15 @@
  */
 var sWindow = function () {};
 /**
-  * Add an event listener to the window object. This is only used in browsers
-  *   without support for addEventListener natively.
+  * Add an event listener to the window object.
   * @param {string} type Type of event.
   * @param {(EventListener|function((sEvent|Event|null)):(boolean|undefined)|null)} func Callback.
-  * @param {boolean|undefined|null} [useCapture] Not used.
+  * @param {boolean} [useCapture=false] If the user is to initiate the event.
   * @returns {sWindow} The object to allow method chaining.
   */
 sWindow.prototype.addEventListener = function (type, func, useCapture) {
   if (window.addEventListener) {
-    window.addEventListener(type, func, useCapture);
+    window.addEventListener(type, func, !!useCapture);
   }
   else if (window.attachEvent) {
     window.attachEvent('on' + type, function () {
@@ -68,7 +67,7 @@ sWindow.prototype.getWidth = function () {
  * Alias to addEventListener for window.
  * @param {string} type Type of event.
  * @param {(EventListener|function((sEvent|Event|null)):(boolean|undefined)|null)} func Callback.
- * @param {boolean|undefined|null} [useCapture] Not used.
+ * @param {boolean} [useCapture] Not used.
  * @returns {sWindow} The object to allow method chaining.
  */
 sWindow.prototype.bind = function (type, func, useCapture) {
@@ -78,7 +77,7 @@ sWindow.prototype.bind = function (type, func, useCapture) {
  * Alias to addEventListener for window.
  * @param {string} type Type of event.
  * @param {(EventListener|function((sEvent|Event|null)):(boolean|undefined)|null)} func Callback.
- * @param {boolean|undefined|null} [useCapture] Not used.
+ * @param {boolean} [useCapture] Not used.
  * @returns {sWindow} The object to allow method chaining.
  */
 sWindow.prototype.addEvent = function (type, func, useCapture) {
