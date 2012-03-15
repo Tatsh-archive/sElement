@@ -17,7 +17,7 @@ sWindow.prototype.addEventListener = function (type, func, useCapture) {
   }
   else if (window.attachEvent) {
     window.attachEvent('on' + type, function () {
-      var event = new sEvent(sWindow.event);
+      var event = new sEvent(window.event);
       var ret = func.call(sWindow, event);
       if (!ret) {
         event.preventDefault();
@@ -25,6 +25,7 @@ sWindow.prototype.addEventListener = function (type, func, useCapture) {
       return ret;
     });
   }
+  return this;
 };
 /**
  * Used in getHeight/width calculation.
