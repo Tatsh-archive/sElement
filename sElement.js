@@ -459,6 +459,71 @@ sElement.prototype.makeEllipsis = function (multipleLines, maxHeight) {
   return this;
 };
 /**
+ * Checks if the element is visible in the window. Tests CSS properties
+ *   'display', 'opacity', 'visibility', 'filter' for alpha(opacity=0).
+ * @returns {boolean} If the element is visible.
+ */
+sElement.prototype.isVisible = function () {
+  // TODO Return false if an ancestor element is scrollable (overflow:auto,scroll) and this element is out of the view
+
+  var el = this._DOMElement;
+  var isVisible = true;
+  var test = function (el) {
+    if (el.offsetWidth === 0 || el.offsetHeight === 0) {
+      return false;
+    }
+    if (el.style.display.toLowerCase() === 'none' || el.style.visibility.toLowerCase() === 'hidden') {
+      return false;
+    }
+    else if (window.getComputedStyle) {
+      var computed = window.getComputedStyle(el, null);
+      if (computed.display.toLowerCase() === 'none') {
+        return false;
+      }
+      else if (computed.visibility.toLowerCase() === 'hidden') {
+        return false;
+      }
+      else if (parseInt(computed.opacity, 10) === 0) {
+        return false;
+      }
+    }
+    else if (el.currentStyle.display.toLowerCase() === 'none' || el.currentStyle.visibility.toLowerCase() === 'hidden') {
+      return false;
+    }
+    else if (el.style.opacity && parseInt(el.style.opacity, 10) === 0) {
+      return false;
+    }
+    else if (el.style.filter) {
+      if (el.style.filter.match(/opacity(\s+)?=(\s+)?0/i)) {
+        return false;
+      }
+    }
+    else if (el.offsetTop < 0 || el.offsetLeft < 0) {
+      return false;
+    }
+
+    return true;
+  };
+
+  if (!el.parentNode || !test(el)) {
+    return false;
+  }
+  else if (el.parentNode) {
+    el = el.parentNode;
+
+    while (isVisible) {
+      if (!el || (el.tagName && el.tagName.toLowerCase() === 'body')) {
+        break;
+      }
+
+      isVisible = test(el);
+      el = el.parentNode;
+    }
+  }
+
+  return isVisible;
+};
+/**
  * Convenience function to get a new sElement object.
  * @param {Element} element Element node reference.
  * @returns {sElement} Element object.
