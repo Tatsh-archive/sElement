@@ -207,8 +207,8 @@ sDocument.prototype.querySelector = function (selector) {
   return element;
 };
 /**
- * The global sDocument reference. Generally, should be the only instance of
- *   sDocument.
+ * The global <code>sDocument</code> reference. Generally, should be the only
+ *   instance of <code>sDocument</code>.
  * @type sDocument
  */
 var sDoc = new sDocument();

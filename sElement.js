@@ -30,7 +30,6 @@ var sElement = function (element) {
    * @type (DOMTokenList|sDOMSettableTokenList)
    */
   this.classList = new sDOMSettableTokenList(this._DOMElement);
-  // TODO Report warning: 'Bad type annotation. Unknown type: DOMStringMap'
   /**
    * @type (DOMStringMap|sDOMStringMap)
    */
@@ -524,7 +523,7 @@ sElement.prototype.isVisible = function () {
   return isVisible;
 };
 /**
- * Convenience function to get a new sElement object.
+ * Convenience function to get a new <code>sElement</code> object.
  * @param {Element} element Element node reference.
  * @returns {sElement} Element object.
  */
