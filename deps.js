@@ -1,4 +1,0 @@
-/*jshint expr:true */
-/**
- * Dependencies.
- */

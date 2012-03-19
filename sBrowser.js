@@ -67,3 +67,28 @@ sBrowser.isIEVersion = function (version) {
 
   return sBrowser.isIEVersionStatics[version];
 };
+/**
+ * @type (boolean|null)
+ * @private
+ */
+sBrowser._canUploadFiles = null;
+/**
+ * Checks if the browser can upload files.
+ * @returns {boolean} If the browser can upload files.
+ */
+sBrowser.canUploadFiles = function () {
+  if (sBrowser._canUploadFiles === null) {
+    var a = document.createElement('input'), ret;
+    try {
+      a.setAttribute('type', 'file');
+      document.body.appendChild(a);
+      ret = !a.disabled;
+      document.body.removeChild(a);
+      sBrowser._canUploadFiles = ret;
+    }
+    catch (e) {}
+    sBrowser._canUploadFiles = true;
+  }
+
+  return sBrowser._canUploadFiles;
+};
