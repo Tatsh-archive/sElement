@@ -1,4 +1,6 @@
-#sElement
+# sElement
+
+Documentation: http://tatsh.github.com/sElement/
 
 Abstraction over the DOM. Alternative to jQuery. Under development.
 
