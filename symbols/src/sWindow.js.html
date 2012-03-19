@@ -1,0 +1,98 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * Front-end to window object properties such as height.
+<span class='line'>  3</span>  * @constructor
+<span class='line'>  4</span>  */</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sWindow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="COMM">/**
+<span class='line'>  7</span>   * Add an event listener to the window object.
+<span class='line'>  8</span>   * @param {string} type Type of event.
+<span class='line'>  9</span>   * @param {(EventListener|function((sEvent|Event|null)):(boolean|undefined)|null)} func Callback.
+<span class='line'> 10</span>   * @param {boolean} [useCapture=false] If the user is to initiate the event.
+<span class='line'> 11</span>   * @returns {sWindow} The object to allow method chaining.
+<span class='line'> 12</span>   */</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="NAME">sWindow.prototype.addEventListener</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">useCapture</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window.addEventListener</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">    </span><span class="NAME">window.addEventListener</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="PUNC">!</span><span class="NAME">useCapture</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">  </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window.attachEvent</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">    </span><span class="NAME">window.attachEvent</span><span class="PUNC">(</span><span class="STRN">'on'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">event</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">sEvent</span><span class="PUNC">(</span><span class="NAME">window.event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">func.call</span><span class="PUNC">(</span><span class="NAME">sWindow</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">ret</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">        </span><span class="NAME">event.preventDefault</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="COMM">/**
+<span class='line'> 30</span>  * Used in getHeight/width calculation.
+<span class='line'> 31</span>  * @private
+<span class='line'> 32</span>  * @type Element
+<span class='line'> 33</span>  */</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="NAME">sWindow._doc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">doc</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.body</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">doc.compatMode</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'CSS1Compat'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">doc.documentElement</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">    </span><span class="NAME">ret</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">doc.documentElement</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ret</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="COMM">/**
+<span class='line'> 42</span>  * Gets the height of the window.
+<span class='line'> 43</span>  * @returns {number} Height of the window.
+<span class='line'> 44</span>  */</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="NAME">sWindow.prototype.getHeight</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">460</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> </span><span class="WHIT">  </span><span class="NAME">sWindow._doc.offsetHeight</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sWindow._doc.offsetHeight</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">  </span><span class="NAME">window.innerHeight</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">window.innerHeight</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> 
+<span class='line'> 51</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="COMM">/**
+<span class='line'> 54</span>  * Gets the width of the window.
+<span class='line'> 55</span>  * @returns {number} Width of the window.
+<span class='line'> 56</span>  */</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="NAME">sWindow.prototype.getWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">630</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">doc</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.body</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> 
+<span class='line'> 61</span> </span><span class="WHIT">  </span><span class="NAME">sWindow._doc.offsetWidth</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">sWindow._doc.offsetWidth</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">  </span><span class="NAME">window.innerWidth</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">window.innerWidth</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> 
+<span class='line'> 64</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="COMM">/**
+<span class='line'> 67</span>  * Alias to addEventListener for window.
+<span class='line'> 68</span>  * @param {string} type Type of event.
+<span class='line'> 69</span>  * @param {(EventListener|function((sEvent|Event|null)):(boolean|undefined)|null)} func Callback.
+<span class='line'> 70</span>  * @param {boolean} [useCapture] Not used.
+<span class='line'> 71</span>  * @returns {sWindow} The object to allow method chaining.
+<span class='line'> 72</span>  */</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="NAME">sWindow.prototype.bind</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">useCapture</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.addEventListener</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">useCapture</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="COMM">/**
+<span class='line'> 77</span>  * Alias to addEventListener for window.
+<span class='line'> 78</span>  * @param {string} type Type of event.
+<span class='line'> 79</span>  * @param {(EventListener|function((sEvent|Event|null)):(boolean|undefined)|null)} func Callback.
+<span class='line'> 80</span>  * @param {boolean} [useCapture] Not used.
+<span class='line'> 81</span>  * @returns {sWindow} The object to allow method chaining.
+<span class='line'> 82</span>  */</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="NAME">sWindow.prototype.addEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">useCapture</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.addEventListener</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">useCapture</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="COMM">/**
+<span class='line'> 87</span>  * Global sWindow reference.
+<span class='line'> 88</span>  * @type sWindow
+<span class='line'> 89</span>  */</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sWin</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">sWindow</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> </span></pre></body></html>
