@@ -274,7 +274,7 @@
 <span class='line'>267</span>  * @returns {sElement} The object to allow method chaining.
 <span class='line'>268</span>  */</span><span class="WHIT">
 <span class='line'>269</span> </span><span class="NAME">sElement.prototype.setText</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">text</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>270</span> </span><span class="WHIT">  </span><span class="NAME">this._DOMElement.innerHTML</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>270</span> </span><span class="WHIT">  </span><span class="NAME">this.removeChildren</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>271</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">node</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createTextNode</span><span class="PUNC">(</span><span class="NAME">text</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>272</span> </span><span class="WHIT">  </span><span class="NAME">this._DOMElement.appendChild</span><span class="PUNC">(</span><span class="NAME">node</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>273</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
@@ -530,11 +530,21 @@
 <span class='line'>523</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">isVisible</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>524</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>525</span> </span><span class="COMM">/**
-<span class='line'>526</span>  * Convenience function to get a new &lt;code>sElement&lt;/code> object.
-<span class='line'>527</span>  * @param {Element} element Element node reference.
-<span class='line'>528</span>  * @returns {sElement} Element object.
-<span class='line'>529</span>  */</span><span class="WHIT">
-<span class='line'>530</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">q</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>531</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">sElement</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>532</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>533</span> </span></pre></body></html>
+<span class='line'>526</span>  * Remove all child elements from this element.
+<span class='line'>527</span>  * @returns {sElement} The object to allow method chaining.
+<span class='line'>528</span>  */</span><span class="WHIT">
+<span class='line'>529</span> </span><span class="NAME">sElement.prototype.removeChildren</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>530</span> </span><span class="WHIT">  </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this._DOMElement.firstChild</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>531</span> </span><span class="WHIT">    </span><span class="NAME">this._DOMElement.removeChild</span><span class="PUNC">(</span><span class="NAME">this._DOMElement.firstChild</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>532</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>533</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>534</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>535</span> </span><span class="COMM">/**
+<span class='line'>536</span>  * Convenience function to get a new &lt;code>sElement&lt;/code> object.
+<span class='line'>537</span>  * @param {Element} element Element node reference.
+<span class='line'>538</span>  * @returns {sElement} Element object.
+<span class='line'>539</span>  */</span><span class="WHIT">
+<span class='line'>540</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">q</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>541</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">sElement</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>542</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>543</span> </span></pre></body></html>
