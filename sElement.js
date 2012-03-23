@@ -267,7 +267,7 @@ sElement.prototype.performCSSTranslation = function (x, y, z, unit) {
  * @returns {sElement} The object to allow method chaining.
  */
 sElement.prototype.setText = function (text) {
-  this._DOMElement.innerHTML = '';
+  this.removeChildren();
   var node = document.createTextNode(text);
   this._DOMElement.appendChild(node);
   return this;
@@ -521,6 +521,16 @@ sElement.prototype.isVisible = function () {
   }
 
   return isVisible;
+};
+/**
+ * Remove all child elements from this element.
+ * @returns {sElement} The object to allow method chaining.
+ */
+sElement.prototype.removeChildren = function () {
+  while (this._DOMElement.firstChild) {
+    this._DOMElement.removeChild(this._DOMElement.firstChild);
+  }
+  return this;
 };
 /**
  * Convenience function to get a new <code>sElement</code> object.
