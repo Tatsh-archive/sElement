@@ -128,7 +128,8 @@ sElement._events = {};
 /**
  * Adds an event listener.
  * @param {string} eventName Event name.
- * @param {function((Event|sEvent))} cb Callback.
+ * @param {EventListener|function((Event|sEvent)):(boolean|undefined)} cb
+ *   Callback.
  * @param {boolean} [useCapture=false] Indicates whether or not the user wishes
  *   to initiate capture.
  * @returns {sElement} The object to allow method chaining.
@@ -180,7 +181,8 @@ sElement.prototype.addEventListener = function (eventName, cb, useCapture) {
 /**
  * Removes an event listener.
  * @param {string} eventName Event name.
- * @param {function((Event|sEvent))} cb Callback.
+ * @param {EventListener|function((Event|sEvent)):(boolean|undefined)} cb
+ *   Callback.
  * @param {boolean} [useCapture=false] Indicates whether or not the user wishes
  *   to initiate capture.
  * @returns {sElement} The object to allow method chaining.
@@ -219,7 +221,8 @@ sElement.prototype.removeEventListener = function (eventName, cb, useCapture) {
 /**
  * Convenience method for addEventListener().
  * @param {string} eventName Event name.
- * @param {function((Event|sEvent))} cb Callback.
+ * @param {EventListener|function((Event|sEvent)):(boolean|undefined)} cb
+ *   Callback.
  * @param {boolean} [useCapture=false] Indicates whether or not the user wishes
  *   to initiate capture.
  * @returns {sElement} The object to allow method chaining.
@@ -230,7 +233,8 @@ sElement.prototype.addEvent = function (eventName, cb, useCapture) {
 /**
  * Convenience method for addEventListener() to be similar to jQuery.
  * @param {string} eventName Event name.
- * @param {function((Event|sEvent))} cb Callback.
+ * @param {EventListener|function((Event|sEvent)):(boolean|undefined)} cb
+ *   Callback.
  * @param {boolean} [useCapture=false] Indicates whether or not the user wishes
  *   to initiate capture.
  * @returns {sElement} The object to allow method chaining.
@@ -241,7 +245,8 @@ sElement.prototype.bind = function (eventName, cb, useCapture) {
 /**
  * Convenience method for removeEventListener() to be similar to jQuery.
  * @param {string} eventName Event name.
- * @param {function((Event|sEvent))} cb Callback.
+ * @param {EventListener|function((Event|sEvent)):(boolean|undefined)} cb
+ *   Callback.
  * @param {boolean} [useCapture=false] Indicates whether or not the user wishes
  *   to initiate capture.
  * @returns {sElement} The object to allow method chaining.
