@@ -304,19 +304,20 @@ sCSS.supportsFocus = (function () {
   doc.body.appendChild(anchor);
 
   if (window.getComputedStyle) {
-    var head = document.getElementsByTagName('head')[0];
-    var styleSheetText = '<style>#' + id + '{font-size:10px}';
+    var head = doc.getElementsByTagName('head')[0];
+    var p = doc.createElement('p');
+    var styleSheetText = 'x<style>#' + id + '{font-size:10px}';
+
     styleSheetText += '#' + id + ':focus{font-size:1px}';
     styleSheetText += '</style>';
-    head.innerHTML += styleSheetText;
+    p.innerHTML += styleSheetText;
+    head.appendChild(p);
 
     anchor.focus();
 
     ret = window.getComputedStyle(anchor, null).fontSize === '1px';
 
-    var style = head.getElementsByTagName('style');
-    style = style[style.length - 1];
-    head.removeChild(style);
+    head.removeChild(p);
   }
   else if (doc.createStyleSheet && anchor.currentStyle) { // IE
     var styleSheet = doc.styleSheets[0] ||doc.createStyleSheet();
