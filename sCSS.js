@@ -287,3 +287,51 @@ sCSS.translateZ = function (element, z, unit) {
   var y = sCSS.currentTranslationOnAxis(element, 'y');
   return sCSS.translate(element, x, y, z, unit);
 };
+/**
+ * If the browser supports the :focus pseudo-selector.
+ * @type boolean
+ */
+sCSS.supportsFocus = (function () {
+  var doc = document;
+  var anchor = doc.createElement('a');
+  var id = 't' + (new Date()).getTime();
+  var ret = true;
+
+  anchor.setAttribute('id', id);
+  anchor.setAttribute('href', '#');
+  anchor.style.top = '-1000px';
+  anchor.style.position = 'absolute';
+  doc.body.appendChild(anchor);
+
+  if (window.getComputedStyle) {
+    var head = document.getElementsByTagName('head')[0];
+    var styleSheetText = '<style>#' + id + '{font-size:10px}';
+    styleSheetText += '#' + id + ':focus{font-size:1px}';
+    styleSheetText += '</style>';
+    head.innerHTML += styleSheetText;
+
+    anchor.focus();
+
+    ret = window.getComputedStyle(anchor, null).fontSize === '1px';
+
+    var style = head.getElementsByTagName('style');
+    style = style[style.length - 1];
+    head.removeChild(style);
+  }
+  else if (doc.createStyleSheet && anchor.currentStyle) { // IE
+    var styleSheet = doc.styleSheets[0] ||doc.createStyleSheet();
+    styleSheet.addRule('#' + id, 'font-size:10px');
+    styleSheet.addRule('#' + id + ':focus', 'font-size:1px !important');
+
+    anchor.focus();
+
+    ret = anchor.currentStyle.fontSize === '1px';
+
+    styleSheet.removeRule(styleSheet.rules.length - 2);
+    styleSheet.removeRule(styleSheet.rules.length - 1);
+  }
+
+  doc.body.removeChild(anchor);
+
+  return ret;
+})();
