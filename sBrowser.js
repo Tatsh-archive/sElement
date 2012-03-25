@@ -86,8 +86,10 @@ sBrowser.canUploadFiles = function () {
       document.body.removeChild(a);
       sBrowser._canUploadFiles = ret;
     }
-    catch (e) {}
-    sBrowser._canUploadFiles = true;
+    catch (e) {
+      // Assume it is possible
+      sBrowser._canUploadFiles = true;
+    }
   }
 
   return sBrowser._canUploadFiles;
