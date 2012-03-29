@@ -45,10 +45,12 @@ sBrowser.isIE = function () {
 /**
  * Test if the browser matches an Internet Explorer conditional comment string.
  *   This is the part after the if keyword. Example: <code>lt IE 9</code>.
- * @param {string} version Version or query string.
+ * @param {string|number} version Version number or query string.
  * @returns {boolean} If the browser matches.
  */
 sBrowser.isIEVersion = function (version) {
+  version = version.toString();
+
   if (sBrowser.isIEVersionStatics[version] === undefined) {
     var div = document.createElement('div');
     div.style.display = 'none';
