@@ -538,6 +538,22 @@ sElement.prototype.removeChildren = function () {
   return this;
 };
 /**
+ * Prepend an element to this element.
+ * @param {sElement} sel The sElement representing the element to prepend.
+ * @returns {sElement} The object to allow method chaining.
+ */
+sElement.prototype.prepend = function (sel) {
+  var el = sel.get();
+
+  if (!el) {
+    return this;
+  }
+
+  this._DOMElement.insertBefore(el, this.children[0]);
+
+  return this;
+};
+/**
  * Convenience function to get a new <code>sElement</code> object.
  * @param {Element} element Element node reference.
  * @returns {sElement} Element object.
