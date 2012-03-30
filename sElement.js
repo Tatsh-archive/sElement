@@ -376,6 +376,15 @@ sElement.prototype.getElementsByClassName = function (className) {
   return ret;
 };
 /**
+ * Convenience alias for sElement#getElementsByClassName.
+ * @param {string} className Class name to search for.
+ * @returns {NodeList|HTMLCollection|Array} Elements.
+ * @see sElement#getElementsByClassName
+ */
+sElement.prototype.byClassName = function (className) {
+  return this.getElementsByClassName(className);
+};
+/**
  * Set attributes to the element.
  * @param {Object} attributes Attributes in key value format.
  * @returns {sElement} The object to allow method chaining.
