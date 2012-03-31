@@ -112,7 +112,7 @@ sDocument.prototype.byClassName = function (className) {
     classesToCheck = [];
 
     for (j = 0; j < classes.length; j++) {
-      classesToCheck.push(new RegExp('(\\s+)?' + classes[j] + '(\\s+)?'));
+      classesToCheck.push(new RegExp('(?:\\s+)?' + classes[j] + '(?:(?:\\s+)|\\B|$)'));
     }
 
     for (j = 0; j < elements.length; j++) {
