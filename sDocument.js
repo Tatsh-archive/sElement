@@ -246,7 +246,7 @@ sDocument.prototype.removeEventListener = function (eventName, cb, useCapture) {
   }
 
   if (document.removeEventListener) {
-    document.removeEventListener(eventName, func, useCapture);
+    document.removeEventListener(eventName, cb, useCapture);
   }
   else if (window.detachEvent) {
     var events = this._originalEventHandlers[eventName];
@@ -277,7 +277,7 @@ sDocument.prototype.removeEventListener = function (eventName, cb, useCapture) {
  *   to initiate capture.
  * @returns {sDocument} The sDocument object to allow method chaining.
  */
-sDocument.unbind = function (eventName, cb, useCapture) {
+sDocument.prototype.unbind = function (eventName, cb, useCapture) {
   return this.removeEventListener(eventName, cb, useCapture);
 };
 /**
