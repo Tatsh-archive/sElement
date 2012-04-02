@@ -35,7 +35,7 @@ var sDOMTokenList = function (element) {
    * @type Array
    * @private
    */
-  this._classes = element.className.split(/\s+/);
+  this._classes = element.className ? element.className.split(/\s+/) : [];
 
   /**
    * Number of classes.

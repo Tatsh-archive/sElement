@@ -38,7 +38,7 @@ var sElement = function (element) {
       return el.dataset;
     }
 
-    var attr = el.attributes;
+    var attr = el.attributes ? el.attributes : [];
     var data = {}, name, value;
 
     for (var i = 0; i < attr.length; i++) {
