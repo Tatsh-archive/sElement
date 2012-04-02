@@ -4,7 +4,25 @@
  * @constructor
  * @returns {sDocument} sDocument object.
  */
-var sDocument = function () {};
+var sDocument = function () {
+  /**
+   * @type Object
+   * @private
+   */
+  this._ieEvents = {};
+  /**
+   * @type Object
+   * @private
+   */
+  this._originalEventHandlers = {};
+
+  return this;
+};
+/**
+ * @type number
+ * @private
+ */
+sDocument._eventId = 0;
 /**
  * Adds an event.
  * @param {string} eventName Event name.
@@ -28,10 +46,12 @@ sDocument.prototype.addEventListener = function (eventName, func, useCapture) {
     document.addEventListener(eventName, func, useCapture);
   }
   else if (window.attachEvent) {
-    // TODO This should be handled by sEvent internally with an ID number so it can be detached
-    window.attachEvent(ieEventName, function () {
+    this._originalEventHandlers[eventName][sDocument._eventId] = func;
+    this._ieEvents[eventName][sDocument._eventId] = function () {
       func.call(document, new sEvent(window.event));
-    });
+    };
+    window.attachEvent(ieEventName, this._ieEvents[eventName][sDocument._eventId]);
+    sDocument._eventId++;
   }
 
   return this;
@@ -205,6 +225,60 @@ sDocument.prototype.querySelector = function (selector) {
   }
 
   return element;
+};
+/**
+ * Removes an event listener.
+ * @param {string} eventName Event name.
+ * @param {function()} cb Callback.
+ * @param {boolean} useCapture Indicates whether or not the user wishes
+ *   to initiate capture.
+ * @returns {sDocument} The sDocument object to allow method chaining.
+ */
+sDocument.prototype.removeEventListener = function (eventName, cb, useCapture) {
+  if (useCapture === undefined) {
+    useCapture = false;
+  }
+
+  var ieEventName = 'on' + eventName;
+
+  if (sBrowser.isIEVersion('lt 9') && eventName === 'DOMContentLoaded') {
+    ieEventName = 'onload';
+  }
+
+  if (document.removeEventListener) {
+    document.removeEventListener(eventName, func, useCapture);
+  }
+  else if (window.detachEvent) {
+    var events = this._originalEventHandlers[eventName];
+    var fn;
+
+    if (events === undefined || this._ieEvents[eventName] === undefined) {
+      return this;
+    }
+
+    for (var key in events) {
+      if (events.hasOwnProperty(key)) {
+        if (events[key] === cb) {
+          fn = this._ieEvents[eventName][key];
+        }
+      }
+    }
+
+    window.detachEvent(ieEventName, fn);
+  }
+
+  return this;
+};
+/**
+ * Alias for <code>sDocument.removeEventListener()</code>.
+ * @param {string} eventName Event name.
+ * @param {function()} cb Callback.
+ * @param {boolean} useCapture Indicates whether or not the user wishes
+ *   to initiate capture.
+ * @returns {sDocument} The sDocument object to allow method chaining.
+ */
+sDocument.unbind = function (eventName, cb, useCapture) {
+  return this.removeEventListener(eventName, cb, useCapture);
 };
 /**
  * The global <code>sDocument</code> reference. Generally, should be the only
