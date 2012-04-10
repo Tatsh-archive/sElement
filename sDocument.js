@@ -46,6 +46,13 @@ sDocument.prototype.addEventListener = function (eventName, func, useCapture) {
     document.addEventListener(eventName, func, useCapture);
   }
   else if (window.attachEvent) {
+    if (!this._originalEventHandlers[eventName]) {
+      this._originalEventHandlers[eventName] = {};
+    }
+    if (!this._ieEvents[eventName]) {
+      this._ieEvents[eventName] = {};
+    }
+
     this._originalEventHandlers[eventName][sDocument._eventId] = func;
     this._ieEvents[eventName][sDocument._eventId] = function () {
       func.call(document, new sEvent(window.event));
