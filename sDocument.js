@@ -132,14 +132,15 @@ sDocument.prototype.byClassName = function (className) {
     }
   }
   else {
-    var match, k;
+    var match, k, regex;
 
     ret = [];
     elements = elm.all ? elm.all : elm.getElementsByTagName('*');
     classesToCheck = [];
+    var len;
 
     for (j = 0; j < classes.length; j++) {
-      classesToCheck.push(new RegExp('(?:\\s+)?' + classes[j] + '(?:(?:\\s+)|\\B|$)'));
+      classesToCheck.push(new RegExp('(?:^' + classes[j] + '(?:\\s+)?)|(?:\\s+)' + classes[j] + '(?:(?:\\s+)|\\B|$)'));
     }
 
     for (j = 0; j < elements.length; j++) {
