@@ -28,12 +28,6 @@ var sDOMSettableTokenList = function (element) {
  * @private
  */
 sDOMSettableTokenList.prototype = new sDOMTokenList();
-// TODO Fix warning
-// /**
-//  * Access to the parent class.
-//  * @private
-//  * @type sDOMTokenList
-//  */
 sDOMSettableTokenList.prototype.parent = sDOMTokenList.prototype;
 /**
  * Constructor.
