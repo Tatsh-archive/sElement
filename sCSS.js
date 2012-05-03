@@ -313,7 +313,7 @@ sCSS.supportsFocus = (function () {
     p.innerHTML += styleSheetText;
     head.appendChild(p);
 
-    anchor.focus();
+    anchor.focus(); // NOTE this causes a reflow
 
     ret = window.getComputedStyle(anchor, null).fontSize === '1px';
 
