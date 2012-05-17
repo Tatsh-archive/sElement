@@ -563,6 +563,27 @@ sElement.prototype.prepend = function (sel) {
   return this;
 };
 /**
+ * Get elements by tag name.
+ * @param {string} tagName Tag name. <code>*</code> represents all elements.
+ * @returns {Array} Collection of sElement objects.
+ */
+sElement.prototype.getElementsByTagName = function (tagName) {
+  var elements = this._DOMElement.getElementsByTagName(tagName);
+  var ret = [];
+  for (var i = 0; i < elements.length; i++) {
+    ret.push(q(elements[i]));
+  }
+  return ret;
+};
+/**
+ * Get elements by tag name (convenience alias).
+ * @param {string} tagName Tag name. <code>*</code> represents all elements.
+ * @returns {Array} Collection of sElement objects.
+ */
+sElement.prototype.byTagName = function (tagName) {
+  return this.getElementsByTagName(tagName);
+};
+/**
  * Convenience function to get a new <code>sElement</code> object.
  * @param {Element} element Element node reference.
  * @returns {sElement} Element object.
