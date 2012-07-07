@@ -47,7 +47,7 @@ var sEvent = function (eventObj) {
    * @type number
    * @see https://developer.mozilla.org/en/DOM/event.eventPhase
    */
-  this.eventPhase = 1; // TODO implement somehow
+  this.eventPhase = 1;
   /**
    * A reference to the target to which the event was originally dispatched.
    * @type Element|window|document
